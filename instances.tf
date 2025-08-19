@@ -12,7 +12,7 @@ resource "aws_instance" "nginx" {
   iam_instance_profile   = aws_iam_instance_profile.nginx_profile.name
   depends_on             = [aws_iam_role_policy.allow_s3_all]
 
-  user_data = templatefile("${path.module}/templates/startup_script.tpl",{s3_bucket_name = aws_s3_bucket.web_bucket.id})
+  user_data = templatefile("${path.module}/templates/startup_script.tpl",{s3_bucket_name=aws_s3_bucket.web_bucket.id})
 
   tags = local.common_tags
 
@@ -40,7 +40,7 @@ resource "aws_instance" "nginx" {
 #
 #  tags = local.common_tags
 #
-#}
+#
 
 # aws_iam_role
 
