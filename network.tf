@@ -30,24 +30,25 @@ resource "aws_internet_gateway" "app" {
 
 }
 
-resource "aws_subnet" "public_subnet1" {
-  cidr_block              = var.vpc_public_subnets_cidr_block[0]
+resource "aws_subnet" "public_subnets" {
+  count = var.vpc_public_subnet_count
+  cidr_block              = var.vpc_public_subnets_cidr_block[count.index]
   vpc_id                  = aws_vpc.app.id
   map_public_ip_on_launch = var.map_public_ip_on_launch
-  availability_zone       = data.aws_availability_zones.available.names[0]
+  availability_zone       = data.aws_availability_zones.available.names[count.index]
 
   tags = local.common_tags
 }
 
-
-resource "aws_subnet" "public_subnet2" {
-  cidr_block              = var.vpc_public_subnets_cidr_block[1]
-  vpc_id                  = aws_vpc.app.id
-  map_public_ip_on_launch = var.map_public_ip_on_launch
-  availability_zone       = data.aws_availability_zones.available.names[1]
-
-  tags = local.common_tags
-}
+#NO LONGER NEEDED AS WE ARE USING COUNT LOOP
+#resource "aws_subnet" "public_subnet2" {
+#  cidr_block              = var.vpc_public_subnets_cidr_block[1]
+#  vpc_id                  = aws_vpc.app.id
+#  map_public_ip_on_launch = var.map_public_ip_on_launch
+#  availability_zone       = data.aws_availability_zones.available.names[1]
+#
+#  tags = local.common_tags
+#}
 
 # ROUTING #
 resource "aws_route_table" "app" {
@@ -61,15 +62,16 @@ resource "aws_route_table" "app" {
 
 }
 
-resource "aws_route_table_association" "app_subnet1" {
-  subnet_id      = aws_subnet.public_subnet1.id
+resource "aws_route_table_association" "app_subnets" {
+  count = var.vpc_public_subnet_count
+  subnet_id      = aws_subnet.public_subnets[count.index].id
   route_table_id = aws_route_table.app.id
 }
 
-resource "aws_route_table_association" "app_subnet2" {
-  subnet_id      = aws_subnet.public_subnet2.id
-  route_table_id = aws_route_table.app.id
-}
+#resource "aws_route_table_association" "app_subnet2" {
+#  subnet_id      = aws_subnet.public_subnet2.id
+#  route_table_id = aws_route_table.app.id
+#}
 
 # SECURITY GROUPS #
 # Nginx security group 
