@@ -15,8 +15,8 @@ resource "aws_instance" "nginx" {
 
   user_data = templatefile("${path.module}/templates/startup_script.tpl", { s3_bucket_name = aws_s3_bucket.web_bucket.id })
 
-  tags = merge(local.common_tags, {name = "${local.naming_prefix}-nginx-${count.index}"})
-
+  tags = merge(local.common_tags, {Name = "${local.naming_prefix}-nginx-${count.index}"})
+  
 }
 
 # INSTANCES #
