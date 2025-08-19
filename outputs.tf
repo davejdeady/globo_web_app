@@ -10,10 +10,3 @@ output "aws_s3_name" {
 
 }
 
-output "aws_nginx1_id" {
-  value = aws_instance.nginx1.id
-}
-
-output "aws_nginx2_id" {
-  value = aws_instance.nginx2.id
-} 

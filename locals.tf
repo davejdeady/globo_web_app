@@ -8,7 +8,7 @@ locals {
 
   website_content = {
     website = "/website/index.html"
-    logo = "/website/Globo_logo_Vert.png"
+    logo    = "/website/Globo_logo_Vert.png"
   }
 
 }
