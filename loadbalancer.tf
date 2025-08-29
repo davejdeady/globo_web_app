@@ -8,8 +8,9 @@ resource "aws_lb" "nginx" {
   internal           = false
   load_balancer_type = "application"
   security_groups    = [aws_security_group.alb_sg.id]
-  subnets            = aws_subnet.public_subnets[*].id
+  #subnets            = aws_subnet.public_subnets[*].id
   #subnets    = [aws_subnet.public_subnet1.id, aws_subnet.public_subnet2.id]
+  subnets = module.app.public_subnets
   depends_on = [aws_s3_bucket_policy.web_bucket]
 
 
@@ -30,7 +31,7 @@ resource "aws_lb_target_group" "nginx" {
   name     = "nginx-lb-tg"
   port     = 80
   protocol = "HTTP"
-  vpc_id   = aws_vpc.app.id
+  vpc_id   = module.app.vpc_id
 }
 
 resource "aws_vpc" "main" {
