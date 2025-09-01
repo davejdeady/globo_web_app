@@ -10,3 +10,7 @@ output "aws_s3_name" {
 
 }
 
+output "aws_availability_zones" {
+  value = data.aws_availability_zones.available.names
+  description = "List of available AZs"
+}
