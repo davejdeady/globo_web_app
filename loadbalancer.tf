@@ -11,13 +11,14 @@ resource "aws_lb" "nginx" {
   #subnets            = aws_subnet.public_subnets[*].id
   #subnets    = [aws_subnet.public_subnet1.id, aws_subnet.public_subnet2.id]
   subnets = module.app.public_subnets
-  depends_on = [aws_s3_bucket_policy.web_bucket]
+  #depends_on = [aws_s3_bucket_policy.web_bucket]
+  depends_on = [module.web_bucket]
 
 
   enable_deletion_protection = false
 
   access_logs {
-    bucket  = aws_s3_bucket.web_bucket.bucket
+    bucket  = module.web_app_s3.web_bucket.id
     prefix  = "alb-logs"
     enabled = true
   }
