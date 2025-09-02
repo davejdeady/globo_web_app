@@ -1,7 +1,7 @@
 variable "aws_region" {
   description = "aws region being used"
   type        = list(string)
-  default     = ["us-east-1", "us-east-2", "us-east-3"]
+  default     = ["eu-west-1", "eu-west-2"]
 }
 
 variable "aws_instance_sizes" {
