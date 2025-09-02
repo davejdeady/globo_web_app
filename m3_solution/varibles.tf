@@ -70,7 +70,7 @@ variable "project" {
 }
 
 variable "billing_code" {
-  type        = number
+  type        = string
   description = "billing_code"
 }
 
