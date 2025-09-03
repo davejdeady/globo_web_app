@@ -32,9 +32,9 @@ variable "cidr_block" {
   description = "cidr block for vpc"
 }
 
-variable "subnet_cidr_block" {
-  type        = string
-  default     = "10.0.10.0/24"
+variable "subnet_cidr_blocks" {
+  type        = list(string)
+  default     = ["10.0.1.0/24", "10.0.2.0/24"]
   description = "cidr block for subnet"
 }
 
