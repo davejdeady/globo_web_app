@@ -1,3 +1,4 @@
-output "public_dns_hostname" {
-  value = "http://${aws_instance.nginx1.public_dns}"
+output "aws_public_dns" {
+  value = "http://${aws_lb.nginx.dns_name}"
+  description = "Public DNS for the ALB instance"
 }
