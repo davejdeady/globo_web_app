@@ -14,17 +14,6 @@ variable "aws_instance_sizes" {
   }
 }
 
-variable "aws_access_key" {
-  type        = string
-  description = "aws access key"
-  sensitive   = true
-}
-
-variable "aws_secret_key" {
-  type        = string
-  description = "aws secret key"
-  sensitive   = true
-}
 
 variable "cidr_block" {
   type        = string
