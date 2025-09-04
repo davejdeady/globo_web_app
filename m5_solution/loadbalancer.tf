@@ -1,5 +1,10 @@
-######### AWS_LB
+#aws_elb_service_account
 
+data "aws_elb_service_account" "root" {}
+
+
+
+######### AWS_LB
 resource "aws_lb" "nginx" {
   name               = "globo-web-alb"
   internal           = false
@@ -9,11 +14,11 @@ resource "aws_lb" "nginx" {
 
   enable_deletion_protection = false
 
-  #  access_logs {
-  #    bucket  = aws_s3_bucket.lb_logs.id
-  #    prefix  = "test-lb"
-  #    enabled = true
-  #  }
+    access_logs {
+      bucket  = aws_s3_bucket.web_bucket.bucket
+      prefix  = "ALB"
+      enabled = true
+    }
 
   tags = local.common_tags
 

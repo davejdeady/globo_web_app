@@ -42,3 +42,10 @@ echo '<html><head><title>Taco Team Server 2</title></head><body style=\"backgrou
 EOF
 
 }
+
+
+#aws_iam_role
+
+#aws_iam_instance_profile
+
+#aws_iam_instance_profile
