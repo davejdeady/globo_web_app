@@ -1,8 +1,8 @@
 # aws_s3_bucket
 
 resource "aws_s3_bucket" "web_bucket" {
-  bucket = local.s3_bucket_name
-  force_destroy = true 
+  bucket        = local.s3_bucket_name
+  force_destroy = true
 
   tags = local.common_tags
 
