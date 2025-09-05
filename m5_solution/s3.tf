@@ -12,43 +12,55 @@ resource "aws_s3_bucket" "web_bucket" {
 
 resource "aws_s3_bucket_policy" "web_bucket" {
   bucket = aws_s3_bucket.web_bucket.id
-  policy = <<POLICY
-{
-  "Version": "2012-10-17",
-  "Statement": [
-    {
-      "Effect": "Allow",
-      "Principal": {
-        "AWS": "${data.aws_elb_service_account.root.arn}"
-      },
-      "Action": "s3:PutObject",
-      "Resource": "arn:aws:s3:::${local.s3_bucket_name}/alb-logs/*"
-    },
-    {
-      "Effect": "Allow",
-      "Principal": {
-        "Service": "delivery.logs.amazonaws.com"
-      },
-      "Action": "s3:PutObject",
-      "Resource": "arn:aws:s3:::${local.s3_bucket_name}/alb-logs/*",
-      "Condition": {
-        "StringEquals": {
-          "s3:x-amz-acl": "bucket-owner-full-control"
-        }
-      }
-    },
-    {
-      "Effect": "Allow",
-      "Principal": {
-        "Service": "delivery.logs.amazonaws.com"
-      },
-      "Action": "s3:GetBucketAcl",
-      "Resource": "arn:aws:s3:::${local.s3_bucket_name}"
-    }
-  ]
+  policy = data.aws_iam_policy_document.web_bucket.json
 }
-    POLICY
 
+data "aws_iam_policy_document" "web_bucket" {
+  statement {
+    principals {
+      type        = "AWS"
+      identifiers = ["${data.aws_elb_service_account.root.arn}"]
+    }
+
+    actions = [
+      "s3:PutObject",
+    ]
+
+    resources = [
+      aws_s3_bucket.web_bucket.arn,
+      "${aws_s3_bucket.web_bucket.arn}/alb-logs/*",
+    ]
+  }
+  statement {
+    principals {
+      type        = "Service"
+      identifiers = ["delivery.logs.amazonaws.com"]
+    }
+
+    actions = [
+      "s3:PutObject",
+    ]
+
+    resources = [
+      aws_s3_bucket.web_bucket.arn,
+      "${aws_s3_bucket.web_bucket.arn}/alb-logs/*",
+    ]
+  }
+  statement {
+    principals {
+      type        = "Service"
+      identifiers = ["delivery.logs.amazonaws.com"]
+    }
+
+    actions = [
+      "s3:GetBucketAcl",
+    ]
+
+    resources = [
+      aws_s3_bucket.web_bucket.arn,
+      "${aws_s3_bucket.web_bucket.arn}/alb-logs/*",
+    ]
+  }
 }
 
 
