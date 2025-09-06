@@ -45,6 +45,11 @@ data "aws_iam_policy_document" "web_bucket" {
       aws_s3_bucket.web_bucket.arn,
       "${aws_s3_bucket.web_bucket.arn}/alb-logs/*",
     ]
+    condition {
+      test     = "StringEquals"
+      variable = "s3:x-amz-acl"
+      values   = ["bucket-owner-full-control"]
+    }
   }
   statement {
     principals {
@@ -58,8 +63,7 @@ data "aws_iam_policy_document" "web_bucket" {
 
     resources = [
       aws_s3_bucket.web_bucket.arn,
-      "${aws_s3_bucket.web_bucket.arn}/alb-logs/*",
-    ]
+      "${aws_s3_bucket.web_bucket.arn}/alb-logs/*",]
   }
 }
 
