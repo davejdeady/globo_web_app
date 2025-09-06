@@ -63,7 +63,7 @@ data "aws_iam_policy_document" "web_bucket" {
 
     resources = [
       aws_s3_bucket.web_bucket.arn,
-      "${aws_s3_bucket.web_bucket.arn}/alb-logs/*",]
+    "${aws_s3_bucket.web_bucket.arn}/alb-logs/*", ]
   }
 }
 
