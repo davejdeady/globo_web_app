@@ -70,16 +70,11 @@ data "aws_iam_policy_document" "web_bucket" {
 
 # aws_s3_object
 
-resource "aws_s3_object" "logo" {
+resource "aws_s3_object" "website_content" {
+  for_each = local.website_content
   bucket = aws_s3_bucket.web_bucket.bucket
-  key    = "/website/Globo_logo_Vert.png"
-  source = "./website/Globo_logo_Vert.png"
-
-}
-
-resource "aws_s3_object" "index" {
-  bucket = aws_s3_bucket.web_bucket.bucket
-  key    = "/website/index.html"
-  source = "./website/index.html"
-
+  key = each.value
+  source = "${path.root}/${each.value}"
+  
+ tags = local.common_tags
 }
